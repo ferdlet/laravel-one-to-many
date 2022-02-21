@@ -15,6 +15,7 @@ class PostController extends Controller
         "title" => "required|string|max:100",
         "content" => "required",
         "published" => "sometimes|accepted",
+        'category_id' => 'nullable|exists:categories,id'
     ];
     /**
      * Display a listing of the resource.
@@ -56,8 +57,11 @@ class PostController extends Controller
         $newPost = new Post();
         $newPost->title = $data["title"];
         $newPost->content = $data["content"];
-        $newPost->published = isset($data["published"]);
+        $newPost->category_id = $data['category_id'];
 
+        if (isset($data['published'])) {
+            $newPost->published = true;
+        }
         
         $slug = Str::of($newPost->title)->slug("-");
         $count = 1;
@@ -94,7 +98,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view("admin.posts.edit", compact("post"));
+        $categories = Category::all();
+
+        return view("admin.posts.edit", compact("post", "categories"));
     }
 
     /**
@@ -125,6 +131,7 @@ class PostController extends Controller
         }
 
         $post->content = $data["content"];
+        $post->category_id = $data['category_id'];
         $post->publisched = isset($data["published"]);
 
         $post->save();

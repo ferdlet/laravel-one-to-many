@@ -11,6 +11,11 @@
                         <div class="mb-3">
                             Stato: {{$post->published ? 'Pubblicato' : 'Bozza'}}
                         </div>
+                        @if ($post->category)
+                            <div class="mb-3">
+                                Categoria: {{$post->category->name}}
+                            </div>
+                        @endif 
                         {{$post->content}}
                         <div class="d-flex gap-5 mt-3">
                             <a class="mr-3" href="{{route("posts.edit", $post->id)}}"><button type="button" class="btn btn-warning">Modifica</button></a>
