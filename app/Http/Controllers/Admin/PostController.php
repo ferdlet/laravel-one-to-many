@@ -132,7 +132,7 @@ class PostController extends Controller
 
         $post->content = $data["content"];
         $post->category_id = $data['category_id'];
-        $post->publisched = isset($data["published"]);
+        $post->published = isset($data["published"]);
 
         $post->save();
 
